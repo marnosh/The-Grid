@@ -57,8 +57,8 @@ export const Header: React.FC<HeaderProps> = () => {
       )}
 
       {/* 4.2 Utility Header in Ghost White #F6F5FA - seamless view without divider */}
-      <div className="bg-[#F6F5FA] px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div className="bg-[#F6F5FA] py-3.5 border-b border-[#D8DFE9]/50">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 flex items-center justify-between gap-4 w-full">
           
           {/* Brand Mark */}
           <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -66,10 +66,10 @@ export const Header: React.FC<HeaderProps> = () => {
           </div>
 
           {/* Primary Nav Links */}
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-zinc-700">
+          <nav className="hidden md:flex items-center gap-2 text-[13px] font-medium text-zinc-700">
             <button
               onClick={() => scrollToSection('spaces')}
-              className="hover:text-[#212121] transition-colors cursor-pointer flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-full hover:bg-zinc-200/50 hover:text-[#212121] transition-all cursor-pointer flex items-center gap-1.5"
             >
               <span>Workspaces</span>
               <span className="px-2 py-0.5 rounded-full bg-[#EFF0A3] text-[#212121] text-[10px] font-bold uppercase border border-[#DFE094]">
@@ -78,13 +78,13 @@ export const Header: React.FC<HeaderProps> = () => {
             </button>
             <button
               onClick={() => scrollToSection('why-coworking')}
-              className="hover:text-[#212121] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-full hover:bg-zinc-200/50 hover:text-[#212121] transition-all cursor-pointer"
             >
               Why Grid
             </button>
             <button
               onClick={() => scrollToSection('amenities')}
-              className="hover:text-[#212121] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-full hover:bg-zinc-200/50 hover:text-[#212121] transition-all cursor-pointer"
             >
               Amenities
             </button>

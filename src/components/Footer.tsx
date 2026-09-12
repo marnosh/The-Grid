@@ -15,8 +15,8 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#212121] text-[#E5E5EA] pt-16 pb-28 px-4 sm:px-8 relative z-30">
-      <div className="max-w-7xl mx-auto">
+    <footer className="bg-[#212121] text-[#E5E5EA] pt-16 pb-28 relative z-30">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 w-full">
         
         {/* 7.1 Pre-Footer CTA Strip */}
         <div className="rounded-2xl bg-[#181818] border border-zinc-800 p-8 sm:p-10 mb-16 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">

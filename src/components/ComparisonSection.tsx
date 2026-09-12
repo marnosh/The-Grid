@@ -13,7 +13,7 @@ export const ComparisonSection: React.FC = () => {
 
   return (
     <section id="comparison" className="py-20 sm:py-28 lg:py-32 bg-[#F6F5FA] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 w-full">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 w-full">
         
         {/* Section Header */}
         <motion.div
@@ -38,7 +38,7 @@ export const ComparisonSection: React.FC = () => {
         </motion.div>
 
         {/* Editorial Dual-Card Comparison Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch mb-14 sm:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch mb-14 sm:mb-20">
           
           {/* Card 1: Conventional Office */}
           <motion.div
@@ -47,7 +47,7 @@ export const ComparisonSection: React.FC = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98] }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className="lg:col-span-5 p-7 sm:p-9 rounded-2xl bg-white/95 border border-[#D8DFE9] shadow-sm flex flex-col justify-between hover:border-[#212121]/30 transition-colors"
+            className="p-7 sm:p-9 rounded-2xl bg-white/95 border border-[#D8DFE9] shadow-sm flex flex-col justify-between hover:border-[#212121]/30 transition-colors"
           >
             <div>
               <div className="flex items-center justify-between pb-3.5 mb-5 border-b border-[#D8DFE9]/50">
@@ -95,7 +95,7 @@ export const ComparisonSection: React.FC = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98], delay: 0.1 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className="lg:col-span-7 p-7 sm:p-9 rounded-2xl bg-[#212121] border border-[#383838] text-white shadow-xl flex flex-col justify-between relative overflow-hidden"
+            className="p-7 sm:p-9 rounded-2xl bg-[#212121] border border-[#383838] text-white shadow-xl flex flex-col justify-between relative overflow-hidden"
           >
             <div className="relative z-10">
               <div className="flex items-center justify-between pb-3.5 mb-5 border-b border-white/10">

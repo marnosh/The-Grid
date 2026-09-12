@@ -62,7 +62,7 @@ const WebsiteContent: React.FC = () => {
   )}`;
 
   return (
-    <div className="min-h-screen bg-[#F6F5FA] text-[#212121] flex flex-col selection:bg-[#212121] selection:text-[#EFF0A3] antialiased">
+    <div className="min-h-screen w-full bg-[#F6F5FA] text-[#212121] flex flex-col selection:bg-[#212121] selection:text-[#EFF0A3] antialiased overflow-x-hidden">
       {/* Full-screen Split-Square Opening Intro Overlay */}
       <SplitSquareIntro />
 

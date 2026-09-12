@@ -39,7 +39,7 @@ export const HeroSection: React.FC = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 w-full relative z-20 flex flex-col items-center justify-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 w-full relative z-20 flex flex-col items-center justify-center">
         
         {/* Eyebrow & Pastel Badges Strip (Centered) */}
         <motion.div
@@ -82,7 +82,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98], delay: 0.2 }}
-          className="max-w-5xl mx-auto text-center w-full"
+          className="max-w-6xl mx-auto text-center w-full"
         >
           <h1 className="font-['Oxygen'] text-4xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-[#212121] leading-[1.08] sm:leading-[1.05] mb-5 sm:mb-6 text-center">
             {(() => {

@@ -12,7 +12,7 @@ export const LocationSection: React.FC = () => {
 
   return (
     <section id="location" className="py-20 sm:py-28 lg:py-32 bg-[#F6F5FA] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         
         {/* Section Header */}
         <motion.div
@@ -40,7 +40,7 @@ export const LocationSection: React.FC = () => {
         </motion.div>
 
         {/* Location Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           
           {/* Details Card (White card on Ghost White with Alice Blue borders) */}
           <motion.div
@@ -49,7 +49,7 @@ export const LocationSection: React.FC = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="lg:col-span-5 p-8 rounded-2xl bg-white border border-[#D8DFE9] shadow-xs flex flex-col justify-between hover:border-[#212121]/40 transition-colors"
+            className="p-8 rounded-2xl bg-white border border-[#D8DFE9] shadow-xs flex flex-col justify-between hover:border-[#212121]/40 transition-colors"
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-3">
@@ -159,7 +159,7 @@ export const LocationSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98], delay: 0.1 }}
-            className="lg:col-span-7 rounded-2xl overflow-hidden border border-[#D8DFE9] min-h-[380px] bg-white shadow-xs relative"
+            className="rounded-2xl overflow-hidden border border-[#D8DFE9] min-h-[380px] bg-white shadow-xs relative"
           >
             <iframe
               title="THE GRID at Hilite Business Park, Calicut"

@@ -38,7 +38,7 @@ export const AmenitiesSection: React.FC = () => {
 
   return (
     <section id="amenities" className="py-20 sm:py-28 lg:py-32 bg-[#F6F5FA] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         
         {/* Section Header */}
         <motion.div
