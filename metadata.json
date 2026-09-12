@@ -1,0 +1,7 @@
+{
+  "name": "THE GRID Coworking",
+  "description": "Official website and dynamic admin panel for THE GRID Coworking Space powered by Castillo at Hilite Business Park, Calicut.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
