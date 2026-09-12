@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-title: "Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-brand: "Archivo Black", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Brand Pastel Palette Tokens (from reference image) */
+:root {
+  --color-ghost-white: #F6F5FA;  /* Clean, airy, pastel canvas base */
+  --color-eerie-black: #212121;  /* Deep rich black for contrast & ink */
+  --color-vanilla: #EFF0A3;      /* Pastel soft yellow highlight */
+  --color-honeydew: #CFDECA;     /* Pastel soft sage green */
+  --color-alice-blue: #D8DFE9;   /* Pastel soft periwinkle / blue-grey */
+  --color-accent-orange: #F5622E;/* Core brand action orange */
+}
+
+/* Dotted Separators disabled for seamless view */
+.border-dotted-separator {
+  border-bottom: none;
+}
+
+.border-dotted-separator-dark {
+  border-bottom: none;
+}
+
+/* Architectural line-grid motif with subtle shadow effect */
+.bg-architectural-grid-light {
+  background-image: 
+    linear-gradient(to right, rgba(33, 33, 33, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(33, 33, 33, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-architectural-grid-dark {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Hero Animated Grid Edge Blur & Smooth Masking */
+.hero-grid-mask {
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.6) 65%, transparent 92%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.6) 65%, transparent 92%);
+}
+
+.hero-edge-blur-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(to bottom, #F6F5FA 0%, rgba(246, 245, 250, 0.8) 40%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hero-edge-blur-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to top, #F6F5FA 0%, rgba(246, 245, 250, 0.85) 45%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hero-edge-blur-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 130px;
+  background: linear-gradient(to right, #F6F5FA 0%, rgba(246, 245, 250, 0.8) 40%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hero-edge-blur-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 130px;
+  background: linear-gradient(to left, #F6F5FA 0%, rgba(246, 245, 250, 0.8) 40%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (max-width: 640px) {
+  .hero-edge-blur-top {
+    height: 70px;
+  }
+  .hero-edge-blur-bottom {
+    height: 90px;
+  }
+  .hero-edge-blur-left,
+  .hero-edge-blur-right {
+    width: 48px;
+  }
+}
+
+/* Smooth Marquee ticker animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbars matching Ghost White & Eerie Black */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F6F5FA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8DFE9;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #212121;
+}
+
+/* Amenity Expandable Hover Pill Component (Hero Session - Liquid Glass) */
+.amenity-pill {
+  width: 54px;
+  height: 54px;
+  border-radius: 9999px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9), 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.amenity-pill:hover,
+.amenity-pill.is-active {
+  width: 195px;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 1), 0 12px 28px -4px rgba(33, 33, 33, 0.12), 0 4px 10px -2px rgba(33, 33, 33, 0.06);
+}
+
+@media (min-width: 640px) {
+  .amenity-pill:hover,
+  .amenity-pill.is-active {
+    width: 215px;
+  }
+}
+
+.amenity-pill .amenity-gradient-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--bg-gradient);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.amenity-pill:hover .amenity-gradient-bg,
+.amenity-pill.is-active .amenity-gradient-bg {
+  opacity: 1;
+}
+
+.amenity-pill .amenity-glow {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  background: var(--bg-gradient);
+  filter: blur(12px);
+  opacity: 0;
+  z-index: -10;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.amenity-pill:hover .amenity-glow,
+.amenity-pill.is-active .amenity-glow {
+  opacity: 0.65;
+}
+
+.amenity-pill .amenity-icon-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.amenity-pill:hover .amenity-icon-wrapper,
+.amenity-pill.is-active .amenity-icon-wrapper {
+  opacity: 0;
+  transform: scale(0.2);
+}
+
+.amenity-pill .amenity-title-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s ease 0.08s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.amenity-pill:hover .amenity-title-wrapper,
+.amenity-pill.is-active .amenity-title-wrapper {
+  opacity: 1;
+  transform: scale(1);
+}
+
