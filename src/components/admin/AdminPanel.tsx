@@ -5,6 +5,8 @@ import { AdminSpacesTab } from './AdminSpacesTab';
 import { AdminAmenitiesTab } from './AdminAmenitiesTab';
 import { AdminContentTab } from './AdminContentTab';
 import { AdminEnquiriesTab } from './AdminEnquiriesTab';
+import { AdminBlogsTab } from './AdminBlogsTab';
+import { AdminExportTab } from './AdminExportTab';
 import {
   LayoutGrid,
   Coffee,
@@ -17,15 +19,26 @@ import {
   Sparkles,
   Check,
   ShieldCheck,
+  BookOpen,
+  Github,
+  Share2,
+  LogOut,
+  User,
+  Lock,
 } from 'lucide-react';
 import { AdminTab } from '../../types';
 
 export const AdminPanel: React.FC = () => {
   const {
     setIsAdminView,
+    isAdminAuthenticated,
+    adminUser,
+    logoutAdmin,
+    setIsAdminLoginModalOpen,
     spaces,
     amenities,
     enquiries,
+    blogs,
     resetToDefaults,
     exportJSON,
     importJSON,
@@ -58,53 +71,104 @@ export const AdminPanel: React.FC = () => {
     }
   };
 
+  // Guard: If not authenticated, require login
+  if (!isAdminAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#18181b] text-white flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-full max-w-md p-8 rounded-2xl bg-[#212121] border border-zinc-800 shadow-2xl">
+          <div className="w-12 h-12 rounded-full bg-red-950/60 border border-red-800/80 flex items-center justify-center mx-auto mb-4 text-red-400">
+            <Lock className="w-6 h-6" />
+          </div>
+          <h2 className="text-xl font-bold mb-2">Authentication Required</h2>
+          <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
+            The CMS Management Portal is protected by serverless backend authentication. Please sign in with your administrator credentials.
+          </p>
+          <div className="space-y-3">
+            <button
+              onClick={() => setIsAdminLoginModalOpen(true)}
+              className="w-full py-2.5 px-4 rounded-xl bg-[#EFF0A3] hover:bg-[#dfe094] text-[#212121] text-xs font-bold transition-all shadow-md cursor-pointer"
+            >
+              Sign In to CMS Admin
+            </button>
+            <button
+              onClick={() => setIsAdminView(false)}
+              className="w-full py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold transition-all cursor-pointer"
+            >
+              Return to Website
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#F6F5FA] text-[#212121] flex flex-col">
       {/* Admin Top Navigation */}
-      <header className="sticky top-0 z-50 bg-[#212121] border-b border-zinc-800 px-4 sm:px-6 py-3.5 text-white">
+      <header className="sticky top-0 z-50 bg-[#212121] border-b border-zinc-800 px-4 sm:px-6 py-3 text-white">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <BrandLogo size="sm" darkTheme={true} />
             <div className="hidden sm:block h-6 w-px bg-zinc-700" />
             <div className="hidden sm:flex items-center gap-2">
               <span className="font-['Oxygen'] text-sm tracking-wider uppercase text-[#EFF0A3] font-bold">
-                CMS Management Portal
+                CMS Portal
               </span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#CFDECA]/20 text-[#CFDECA] font-semibold border border-[#CFDECA]/30">
-                Live Dynamic Sync
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-300 font-semibold border border-emerald-800/60 flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                <span>Backend Verified</span>
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Current Admin Email Pill */}
+            {adminUser?.email && (
+              <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-700/80 text-[11px] text-zinc-300">
+                <User className="w-3.5 h-3.5 text-[#EFF0A3]" />
+                <span className="truncate max-w-[150px]">{adminUser.email}</span>
+              </div>
+            )}
+
             {/* Export / Backup */}
             <button
               onClick={handleExport}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300 border border-zinc-700 transition-colors cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300 border border-zinc-700 transition-colors cursor-pointer"
               title="Download full JSON backup of current configuration"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Export JSON</span>
+              <span>Export</span>
             </button>
 
             {/* Import */}
             <button
               onClick={() => setImportModalOpen(true)}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300 border border-zinc-700 transition-colors cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300 border border-zinc-700 transition-colors cursor-pointer"
               title="Import JSON data backup"
             >
               <Upload className="w-3.5 h-3.5" />
-              <span>Import JSON</span>
+              <span>Import</span>
             </button>
 
             {/* Live Website Preview Button */}
             <button
               id="view-live-website-btn"
               onClick={() => setIsAdminView(false)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EFF0A3] hover:bg-[#dfe094] text-[#212121] text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer border border-[#dfe094]"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFF0A3] hover:bg-[#dfe094] text-[#212121] text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer border border-[#dfe094]"
             >
-              <Eye className="w-4 h-4 text-[#212121]" />
-              <span>View Live Website</span>
+              <Eye className="w-3.5 h-3.5 text-[#212121]" />
+              <span>Live Website</span>
+            </button>
+
+            {/* Logout Button */}
+            <button
+              id="admin-logout-btn"
+              onClick={logoutAdmin}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 hover:bg-red-950/80 hover:border-red-800/80 text-xs font-semibold text-zinc-300 hover:text-red-300 border border-zinc-700 transition-all cursor-pointer"
+              title="Sign out of Admin Session"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Log Out</span>
             </button>
           </div>
         </div>
@@ -114,10 +178,10 @@ export const AdminPanel: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
         
         {/* Metric Quick Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
           <div
             onClick={() => setActiveTab('spaces')}
-            className={`p-5 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
+            className={`p-4 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
               activeTab === 'spaces'
                 ? 'border-[#212121] ring-1 ring-[#212121]'
                 : 'border-[#D8DFE9] hover:border-[#212121]'
@@ -129,48 +193,67 @@ export const AdminPanel: React.FC = () => {
                 <LayoutGrid className="w-3.5 h-3.5 text-[#212121]" />
               </div>
             </div>
-            <div className="font-['Oxygen'] text-2xl font-bold text-[#212121]">
+            <div className="font-['Oxygen'] text-xl font-bold text-[#212121]">
               {spaces.length} Spaces
             </div>
           </div>
 
           <div
             onClick={() => setActiveTab('amenities')}
-            className={`p-5 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
+            className={`p-4 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
               activeTab === 'amenities'
                 ? 'border-[#212121] ring-1 ring-[#212121]'
                 : 'border-[#D8DFE9] hover:border-[#212121]'
             }`}
           >
             <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-2">
-              <span>Perks & Amenities</span>
+              <span>Amenities</span>
               <div className="w-7 h-7 rounded-lg bg-[#D8DFE9]/40 flex items-center justify-center">
                 <Coffee className="w-3.5 h-3.5 text-[#212121]" />
               </div>
             </div>
-            <div className="font-['Oxygen'] text-2xl font-bold text-[#212121]">
+            <div className="font-['Oxygen'] text-xl font-bold text-[#212121]">
               {amenities.filter((a) => a.enabled).length} Active
             </div>
           </div>
 
           <div
+            onClick={() => setActiveTab('blogs')}
+            className={`p-4 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
+              activeTab === 'blogs'
+                ? 'border-[#212121] ring-1 ring-[#212121]'
+                : 'border-[#D8DFE9] hover:border-[#212121]'
+            }`}
+          >
+            <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-2">
+              <span>Blogs</span>
+              <div className="w-7 h-7 rounded-lg bg-[#EFF0A3] flex items-center justify-center">
+                <BookOpen className="w-3.5 h-3.5 text-[#212121]" />
+              </div>
+            </div>
+            <div className="font-['Oxygen'] text-xl font-bold text-[#212121]">
+              {blogs.length} Articles
+            </div>
+          </div>
+
+          <div
             onClick={() => setActiveTab('enquiries')}
-            className={`p-5 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
+            className={`p-4 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
               activeTab === 'enquiries'
                 ? 'border-[#212121] ring-1 ring-[#212121]'
                 : 'border-[#D8DFE9] hover:border-[#212121]'
             }`}
           >
             <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-2">
-              <span>Customer Leads</span>
+              <span>Leads CRM</span>
               <div className="w-7 h-7 rounded-lg bg-[#D8DFE9]/40 flex items-center justify-center">
                 <Users className="w-3.5 h-3.5 text-[#212121]" />
               </div>
             </div>
-            <div className="font-['Oxygen'] text-2xl font-bold text-[#212121] flex items-center gap-2">
+            <div className="font-['Oxygen'] text-xl font-bold text-[#212121] flex items-center gap-1.5">
               <span>{enquiries.length}</span>
               {newLeadsCount > 0 && (
-                <span className="text-[10px] font-sans px-2 py-0.5 rounded-full bg-[#EFF0A3] text-[#212121] border border-[#DFE094] font-bold">
+                <span className="text-[10px] font-sans px-1.5 py-0.5 rounded-full bg-[#EFF0A3] text-[#212121] border border-[#DFE094] font-bold">
                   {newLeadsCount} New
                 </span>
               )}
@@ -178,30 +261,30 @@ export const AdminPanel: React.FC = () => {
           </div>
 
           <div
-            onClick={() => setActiveTab('content')}
-            className={`p-5 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
-              activeTab === 'content'
+            onClick={() => setActiveTab('export')}
+            className={`p-4 rounded-2xl border transition-all cursor-pointer bg-white shadow-xs ${
+              activeTab === 'export'
                 ? 'border-[#212121] ring-1 ring-[#212121]'
                 : 'border-[#D8DFE9] hover:border-[#212121]'
             }`}
           >
             <div className="flex items-center justify-between text-xs text-zinc-500 font-semibold mb-2">
-              <span>Copy & Pop-up</span>
-              <div className="w-7 h-7 rounded-lg bg-[#D8DFE9]/40 flex items-center justify-center">
-                <FileText className="w-3.5 h-3.5 text-[#212121]" />
+              <span>GitHub Deploy</span>
+              <div className="w-7 h-7 rounded-lg bg-zinc-900 text-[#EFF0A3] flex items-center justify-center">
+                <Github className="w-3.5 h-3.5" />
               </div>
             </div>
-            <div className="font-['Oxygen'] text-2xl font-bold text-[#212121]">
-              Copy & Pop-up
+            <div className="font-['Oxygen'] text-xl font-bold text-[#212121]">
+              Export Code
             </div>
           </div>
         </div>
 
-        {/* Tab Navigation Navigation Bar */}
+        {/* Tab Navigation Bar */}
         <div className="flex border-b border-[#D8DFE9] gap-2 mb-8 overflow-x-auto pb-1">
           <button
             onClick={() => setActiveTab('spaces')}
-            className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'spaces'
                 ? 'border-[#212121] text-[#212121] font-bold'
                 : 'border-transparent text-zinc-500 hover:text-[#212121]'
@@ -213,7 +296,7 @@ export const AdminPanel: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('amenities')}
-            className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'amenities'
                 ? 'border-[#212121] text-[#212121] font-bold'
                 : 'border-transparent text-zinc-500 hover:text-[#212121]'
@@ -224,8 +307,20 @@ export const AdminPanel: React.FC = () => {
           </button>
 
           <button
+            onClick={() => setActiveTab('blogs')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'blogs'
+                ? 'border-[#212121] text-[#212121] font-bold'
+                : 'border-transparent text-zinc-500 hover:text-[#212121]'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>Blogs ({blogs.length})</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('content')}
-            className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'content'
                 ? 'border-[#212121] text-[#212121] font-bold'
                 : 'border-transparent text-zinc-500 hover:text-[#212121]'
@@ -237,7 +332,7 @@ export const AdminPanel: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('enquiries')}
-            className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer relative ${
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer relative ${
               activeTab === 'enquiries'
                 ? 'border-[#212121] text-[#212121] font-bold'
                 : 'border-transparent text-zinc-500 hover:text-[#212121]'
@@ -251,14 +346,28 @@ export const AdminPanel: React.FC = () => {
               </span>
             )}
           </button>
+
+          <button
+            onClick={() => setActiveTab('export')}
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
+              activeTab === 'export'
+                ? 'border-[#212121] text-[#212121] font-bold'
+                : 'border-transparent text-zinc-500 hover:text-[#212121]'
+            }`}
+          >
+            <Github className="w-4 h-4" />
+            <span>Export & GitHub Deploy</span>
+          </button>
         </div>
 
         {/* Tab Content Display */}
         <div className="bg-white rounded-2xl border border-[#D8DFE9] p-6 sm:p-8 shadow-xs">
           {activeTab === 'spaces' && <AdminSpacesTab />}
           {activeTab === 'amenities' && <AdminAmenitiesTab />}
+          {activeTab === 'blogs' && <AdminBlogsTab />}
           {activeTab === 'content' && <AdminContentTab />}
           {activeTab === 'enquiries' && <AdminEnquiriesTab />}
+          {activeTab === 'export' && <AdminExportTab />}
         </div>
       </div>
 

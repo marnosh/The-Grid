@@ -70,4 +70,27 @@ export interface Enquiry {
   notes?: string;
 }
 
-export type AdminTab = 'spaces' | 'amenities' | 'content' | 'enquiries' | 'settings';
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImageUrl: string;
+  coverImageAlt?: string;
+  author: string;
+  category: string;
+  tags: string[];
+  publishedAt: string;
+  readTime: string;
+  isPublished: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+}
+
+export type AdminTab = 'spaces' | 'amenities' | 'content' | 'blogs' | 'enquiries' | 'export';
+
+export interface AdminUser {
+  email: string;
+  isCustomConfigured?: boolean;
+}

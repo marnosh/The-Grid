@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useData } from '../context/DataContext';
-import { Phone, Send, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { Phone, Mail, CheckCircle2, Sparkles, Send } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
+
+const TARGET_EMAIL = 'thegridbycastillo@gmail.com';
 
 export const EnquirySection: React.FC = () => {
   const { siteConfig, spaces, addEnquiry } = useData();
@@ -18,10 +20,42 @@ export const EnquirySection: React.FC = () => {
 
   const [submitted, setSubmitted] = useState(false);
 
+  // Generate mailto link with customer details pre-filled to thegridbycastillo@gmail.com
+  const emailSubject = `Workspace Enquiry: ${formData.spaceType} (${formData.seatsNeeded}) - ${formData.name || 'New Client'}`;
+  const emailBody = [
+    `Hello Team THE GRID,`,
+    ``,
+    `I would like to enquire about workspace availability at THE GRID Coworking (Hilite Business Park, Calicut).`,
+    ``,
+    `Here are my details:`,
+    `• Full Name: ${formData.name || 'Not provided'}`,
+    `• Phone / WhatsApp: ${formData.phone || 'Not provided'}`,
+    formData.email ? `• My Email: ${formData.email}` : null,
+    `• Workspace Required: ${formData.spaceType}`,
+    `• Number of Seats: ${formData.seatsNeeded}`,
+    formData.message ? `• Additional Notes: ${formData.message}` : null,
+    ``,
+    `Please reply with pricing, move-in availability, and walkthrough schedule.`,
+    ``,
+    `Best regards,`,
+    formData.name || 'A prospective member',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const customerMailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
+    emailSubject
+  )}&body=${encodeURIComponent(emailBody)}`;
+
+  const whatsappDirectUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+    `Hi, I'm ${formData.name || 'interested'} and looking for ${formData.spaceType} (${formData.seatsNeeded}) at THE GRID Calicut.`
+  )}`;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.phone.trim()) return;
 
+    // 1. Record lead in the local CMS Admin Portal
     addEnquiry({
       name: formData.name.trim(),
       phone: formData.phone.trim(),
@@ -31,12 +65,12 @@ export const EnquirySection: React.FC = () => {
       message: formData.message.trim(),
     });
 
+    // 2. Automatically launch the customer's personal email client (Gmail, Apple Mail, Outlook)
+    window.location.href = customerMailtoUrl;
+
+    // 3. Display confirmation screen
     setSubmitted(true);
   };
-
-  const whatsappDirectUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-    `Hi, I'm ${formData.name || 'interested'} and looking for ${formData.spaceType} (${formData.seatsNeeded}) at THE GRID Calicut.`
-  )}`;
 
   return (
     <section id="enquiry" className="py-20 sm:py-28 lg:py-32 bg-[#F6F5FA] relative">
@@ -54,7 +88,7 @@ export const EnquirySection: React.FC = () => {
           >
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EFF0A3] border border-[#DFE094] text-[11px] font-bold uppercase tracking-wider text-[#212121] mb-3">
               <Sparkles className="w-3 h-3 text-[#212121]" />
-              Same-Day Availability Confirmation
+              Direct Booking & Same-Day Confirmation
             </div>
             
             <h2 className="font-['Oxygen'] text-3xl sm:text-5xl font-bold uppercase tracking-tight text-[#212121] mb-3">
@@ -82,7 +116,7 @@ export const EnquirySection: React.FC = () => {
                   Enquiry Received
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 max-w-md mx-auto">
-                  Thank you, <span className="font-bold text-[#212121]">{formData.name}</span>. Our floor team at Hilite Business Park will call or message you shortly.
+                  Thank you, <span className="font-bold text-[#212121]">{formData.name}</span>! Our floor team at Hilite Business Park will confirm availability and get in touch with you shortly.
                 </p>
                 <div className="pt-4 flex flex-wrap justify-center gap-3">
                   <a
@@ -92,7 +126,7 @@ export const EnquirySection: React.FC = () => {
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#CFDECA] text-[#212121] font-bold text-xs shadow-xs hover:bg-[#b8cbb3]"
                   >
                     <WhatsAppIcon className="w-4 h-4" />
-                    Open in WhatsApp to Chat Now
+                    <span>Chat on WhatsApp</span>
                   </a>
                   <button
                     onClick={() => {
@@ -106,7 +140,7 @@ export const EnquirySection: React.FC = () => {
                         message: '',
                       });
                     }}
-                    className="px-5 py-2.5 rounded-full bg-[#F6F5FA] border border-[#D8DFE9] text-xs font-semibold text-[#212121] hover:bg-white"
+                    className="px-5 py-2.5 rounded-full bg-[#F6F5FA] border border-[#D8DFE9] text-xs font-semibold text-[#212121] hover:bg-white cursor-pointer"
                   >
                     Submit Another Request
                   </button>
@@ -114,7 +148,7 @@ export const EnquirySection: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {/* Name */}
                   <div>
                     <label className="block text-[11px] font-bold uppercase text-zinc-500 tracking-wider mb-2">
@@ -141,6 +175,20 @@ export const EnquirySection: React.FC = () => {
                       placeholder="+91 98765 43210"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full bg-[#F6F5FA] focus:bg-white border border-[#D8DFE9] focus:border-[#212121] rounded-xl px-4 py-3 text-xs text-[#212121] outline-none transition-all"
+                    />
+                  </div>
+
+                  {/* Customer Email */}
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase text-zinc-500 tracking-wider mb-2">
+                      Your Email (Optional)
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="you@company.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full bg-[#F6F5FA] focus:bg-white border border-[#D8DFE9] focus:border-[#212121] rounded-xl px-4 py-3 text-xs text-[#212121] outline-none transition-all"
                     />
                   </div>
@@ -206,8 +254,8 @@ export const EnquirySection: React.FC = () => {
                     type="submit"
                     className="w-full sm:flex-1 flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#212121] hover:bg-[#333333] text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
                   >
-                    <Send className="w-3.5 h-3.5 text-[#EFF0A3]" />
-                    <span>Confirm Availability & Receive Rates</span>
+                    <Mail className="w-3.5 h-3.5 text-[#EFF0A3]" />
+                    <span>Send by Email</span>
                   </motion.button>
 
                   <motion.a
@@ -221,10 +269,6 @@ export const EnquirySection: React.FC = () => {
                     <WhatsAppIcon className="w-3.5 h-3.5 text-[#212121]" />
                     <span>Instant WhatsApp</span>
                   </motion.a>
-                </div>
-
-                <div className="pt-3 text-center text-[11px] text-zinc-500">
-                  <span>Zero brokerage. Direct booking with the facility management at 1st Floor, Hilite Business Park.</span>
                 </div>
               </form>
             )}

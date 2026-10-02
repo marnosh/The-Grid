@@ -7,12 +7,15 @@ import { ComparisonSection } from './components/ComparisonSection';
 import { WhyCoworkingSection } from './components/WhyCoworkingSection';
 import { SpacesSection } from './components/SpacesSection';
 import { AmenitiesSection } from './components/AmenitiesSection';
+import { ImageCarouselSection } from './components/ImageCarouselSection';
 import { LocationSection } from './components/LocationSection';
 import { EnquirySection } from './components/EnquirySection';
 import { Footer } from './components/Footer';
 import { SoftPromoPopup } from './components/SoftPromoPopup';
 import { SplitSquareIntro } from './components/SplitSquareIntro';
+import { BlogViewer } from './components/BlogViewer';
 import { AdminPanel } from './components/admin/AdminPanel';
+import { AdminLoginModal } from './components/admin/AdminLoginModal';
 import { CheckCircle2 } from 'lucide-react';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 
@@ -46,6 +49,10 @@ const WebsiteContent: React.FC = () => {
     return (
       <>
         <AdminPanel />
+        {/* Blog Viewer Modal / Reader View for live preview from Admin */}
+        <BlogViewer />
+        {/* Admin Login Dialog Modal */}
+        <AdminLoginModal />
         {/* Toast Notification */}
         {toastMessage && (
           <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-[#212121] border border-zinc-700 text-white text-xs font-semibold shadow-2xl animate-in slide-in-from-bottom-2">
@@ -76,12 +83,19 @@ const WebsiteContent: React.FC = () => {
         <WhyCoworkingSection />
         <SpacesSection searchQuery={searchQuery} />
         <AmenitiesSection />
+        <ImageCarouselSection />
         <LocationSection />
         <EnquirySection />
       </main>
 
       {/* Site Footer with Pre-Footer CTA */}
       <Footer />
+
+      {/* Blog Viewer Modal / Reader View */}
+      <BlogViewer />
+
+      {/* Admin Login Modal */}
+      <AdminLoginModal />
 
       {/* 4.1 Floating Pill Nav (Reveals only after scrolling out of hero) */}
       <FloatingPillNav visible={hasScrolledPastHero} />

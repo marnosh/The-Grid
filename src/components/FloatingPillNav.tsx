@@ -73,6 +73,12 @@ export const FloatingPillNav: React.FC<FloatingPillNavProps> = ({ visible = true
               Amenities
             </button>
             <button
+              onClick={() => scrollTo('gallery')}
+              className="px-2.5 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              Gallery
+            </button>
+            <button
               onClick={() => scrollTo('location')}
               className="px-2.5 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             >

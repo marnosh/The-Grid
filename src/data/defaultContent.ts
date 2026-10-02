@@ -1,4 +1,4 @@
-import { SpaceItem, AmenityItem, SiteConfig, Enquiry } from '../types';
+import { SpaceItem, AmenityItem, SiteConfig, Enquiry, BlogPost } from '../types';
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
   brandName: 'THE GRID',
@@ -10,7 +10,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   email: 'thegridbycastillo@gmail.com',
   instagram: '@the__grid___',
   instagramUrl: 'https://www.instagram.com/the__grid___?igsi=eTV0NHk2ZncxZnd6',
-  address: '1st Floor, Phase 2, Hilite Business Park, Calicut',
+  address: '2121, 1st Floor, Phase 2, Hilite Business Park, Calicut',
   floorNotice: 'THE GRID is on the 1st floor of Hilite Business Park, Phase 2 — no lift queues, no long stair climbs before your first meeting.',
   heroHeadline: 'Skip the stress. Skip Expensive rent. Just work.',
   heroPosterQuestion: 'Which One Would You Choose?',
@@ -69,12 +69,12 @@ export const DEFAULT_SPACES: SpaceItem[] = [
   },
   {
     id: 'space-private-cabin',
-    name: 'Private cabin (4 / 6 / 8 / 12 seater)',
+    name: 'Private cabin (4 / 6 / 8 / 12 / 16 seater)',
     price: 'Starting from ₹3,500',
     unit: 'per seat / month',
     badge: 'MOST POPULAR',
-    seatsInfo: '4, 6, 8 or 12 Seater',
-    description: 'Fully furnished private cabins for small teams who need a closed door and their own space, sized from 4 to 12 seats.',
+    seatsInfo: '4, 6, 8, 12 or 16 Seater',
+    description: 'Fully furnished private cabins for small teams who need a closed door and their own space, sized from 4 to 16 seats.',
     features: [
       'Fully furnished',
       'Fully air-conditioned',
@@ -121,6 +121,7 @@ export const DEFAULT_SPACES: SpaceItem[] = [
     seatsInfo: 'Business Address & Compliances',
     description: 'A registered business address at Hilite Business Park for founders who need paperwork sorted without renting a desk.',
     features: [
+      'Free MSME and GST registration',
       'Prime location address',
       'Business registration & office support',
       'Inward courier management',
@@ -219,5 +220,106 @@ export const INITIAL_SAMPLE_ENQUIRIES: Enquiry[] = [
     createdAt: new Date(Date.now() - 3600000 * 48).toISOString(),
     status: 'booked',
     notes: 'Agreement signed, onboarded for ₹999/mo plan.',
+  },
+];
+
+export const DEFAULT_BLOGS: BlogPost[] = [
+  {
+    id: 'blog-1',
+    title: 'Why Hilite Business Park Phase 2 is Calicut’s Leading Hub for Startups and Tech Teams',
+    slug: 'why-hilite-business-park-calicut-coworking',
+    excerpt: 'Discover why innovative founders, IT agencies, and creative freelancers are moving from traditional leased offices to Hilite Business Park Phase 2 in Calicut.',
+    coverImageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    coverImageAlt: 'Modern office interior at Hilite Business Park Calicut',
+    author: 'THE GRID Editorial',
+    category: 'Calicut Business',
+    tags: ['Coworking', 'Calicut', 'Hilite Park', 'Startups'],
+    publishedAt: '2026-09-15',
+    readTime: '4 min read',
+    isPublished: true,
+    metaTitle: 'Why Hilite Business Park Phase 2 is Calicut’s Leading Tech Hub | THE GRID',
+    metaDescription: 'Explore the benefits of setting up your startup or remote team at Hilite Business Park Phase 2, Calicut. Zero setup friction and prime connectivity at THE GRID.',
+    content: `Calicut's commercial landscape is undergoing a decisive shift. For decades, businesses in the Malabar region operated out of standalone commercial buildings scattered across Mavoor Road, Bank Road, and Palayam. Today, the center of gravity for tech enterprises, creative agencies, and high-growth ventures has firmly relocated to **Hilite Business Park Phase 2**.
+
+### The Advantage of Prime Location
+Positioned directly on the Calicut Bypass, Hilite Business Park offers unmatched connectivity. Teams avoid inner-city traffic while remaining just minutes away from major transport arteries, Calicut Cyberpark, and the Government Cyberpark.
+
+Clients visiting from Kochi, Bangalore, or the Calicut International Airport can access the facility without navigating congested city corridors.
+
+### 1st Floor Accessibility: Skip the Lift Queues
+One recurring pain point in high-rise corporate towers is elevator waiting times, particularly during morning rush hours and post-lunch intervals. 
+
+**THE GRID** is situated on the **1st Floor of Phase 2**, enabling immediate walk-in accessibility. Whether you are stepping out for a coffee break or welcoming high-value clients, you never lose 15 minutes waiting for an elevator bank.
+
+### Premium Amenities Without Capital Expenditure
+Setting up a private 10-member office in Calicut typically demands significant initial capital:
+- Long commercial lease deposits (6-10 months rent)
+- Expensive interior fit-outs, air conditioning units, and modular workstations
+- Recurring utility bills, cleaning staff, and high-speed enterprise fiber broadband contracts
+
+At THE GRID, everything is operational from Day 1. With workstations starting at ₹3,500/month and private furnished cabins, founders protect their seed capital and focus entirely on product velocity and customer acquisition.`,
+  },
+  {
+    id: 'blog-2',
+    title: 'How Virtual Office Registration at ₹999/mo Saves Calicut Businesses Thousands in Overhead',
+    slug: 'virtual-office-calicut-999-guide',
+    excerpt: 'A comprehensive guide to obtaining a prestigious Hilite Business Park corporate address, GST compliance, and MCA company registration for just ₹999 per month.',
+    coverImageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    coverImageAlt: 'Corporate business architecture for virtual office registration in Calicut',
+    author: 'Castillo Compliance Team',
+    category: 'Business Setup',
+    tags: ['Virtual Office', 'GST Registration', 'Pvt Ltd', 'Calicut'],
+    publishedAt: '2026-09-10',
+    readTime: '5 min read',
+    isPublished: true,
+    metaTitle: 'Virtual Office in Calicut for ₹999/mo | GST & Company Registration at THE GRID',
+    metaDescription: 'Get a prime business address at Hilite Business Park Phase 2, Calicut for GST, LLP, and Pvt Ltd registration with mail handling for only ₹999/month.',
+    content: `Whether you run an e-commerce brand, a remote software consultancy, or an international import-export venture, having a credible commercial address is essential for trust, regulatory compliance, and banking relationships.
+
+However, paying ₹30,000 to ₹50,000 per month for a physical office you rarely occupy makes no financial sense. That is where **THE GRID’s Virtual Office plan at ₹999/month** comes in.
+
+### What is Included in the ₹999/Month Virtual Office Package?
+1. **Prestigious Hilite Business Park Address**: Display a reputable Phase 2 Hilite Business Park address on your website, invoices, letterheads, and Google Business Profile.
+2. **GST Registration Documentation**: Full NOC (No Objection Certificate), rent agreement, and utility bill documentation accepted by the GST department and tax authorities.
+3. **Company Registration (ROC / MCA)**: Suitable for Private Limited (Pvt Ltd), Limited Liability Partnership (LLP), Sole Proprietorship, and Partnership deeds.
+4. **Physical Name Board & Inward Courier Handling**: Your business name displayed on the official directory board, with incoming mail safely received and recorded by on-site staff.
+5. **On-Demand Desk & Meeting Room Access**: When you need to meet a client or hold an annual board review, book air-conditioned meeting spaces right on the 1st Floor.
+
+### Who Benefits Most?
+- **Remote Founders**: Tech entrepreneurs whose entire engineering team works from home.
+- **Outstation Companies**: Kochi, Bangalore, or Mumbai firms requiring a formal branch presence in Malabar.
+- **Freelancers & Consultants**: Professionals who want to protect their residential privacy and establish corporate credibility.
+
+Setting up takes less than 48 hours once KYC documents are verified.`,
+  },
+  {
+    id: 'blog-3',
+    title: 'Hot Desk vs Private Cabin: Which Coworking Plan Fits Your Workstyle at THE GRID?',
+    slug: 'hot-desk-vs-private-cabin-guide',
+    excerpt: 'Comparing shared hot desks, dedicated team suites, and private cabins at Hilite Business Park to help you select the ideal workspace for your productivity.',
+    coverImageUrl: 'https://images.unsplash.com/photo-1527192491265-7e15c55b1ed2?auto=format&fit=crop&w=1200&q=80',
+    coverImageAlt: 'Hot desk and collaborative open space at THE GRID',
+    author: 'Community Manager',
+    category: 'Workspace Guide',
+    tags: ['Coworking', 'Productivity', 'Hot Desk', 'Private Cabin'],
+    publishedAt: '2026-09-02',
+    readTime: '3 min read',
+    isPublished: true,
+    metaTitle: 'Hot Desk vs Private Cabin: Which Workspace Should You Choose? | THE GRID',
+    metaDescription: 'Find out whether a flexible hot desk or a lockable private cabin at THE GRID Hilite Business Park Phase 2 fits your workflow and budget.',
+    content: `Choosing the right workspace configuration directly affects your daily focus, team dynamics, and monthly operating expenses. At **THE GRID**, we have engineered flexible spaces catering to solo operators as well as growing tech departments.
+
+### When to Choose a Hot Desk (Starting ₹3,500/month)
+- **Solo Freelancers & Developers**: If you need an ergonomic seat, high-speed fiber internet, and cold brew coffee without being tied to a single spot.
+- **Networkers**: Sitting in the open coworking floor naturally connects you with graphic designers, full-stack engineers, and marketing specialists.
+- **Flexible Timers**: Drop in, plug into the power strip, crush your sprint tasks, and unwind in the games & lounge area.
+
+### When to Choose a Private Cabin (4, 6, 8, 12 or 16 Seater)
+- **Teams with Daily Syncs & Client Calls**: If your team conducts multiple video conferences, handles sensitive client data, or needs confidential discussions.
+- **Customized Branding & Lockable Storage**: Keep your monitors, whiteboards, and equipment safely locked overnight behind sound-insulated glass partitions.
+- **Cost Efficiency for Small Teams**: Sized precisely for 4 to 16 members, giving your team the prestige of a private headquarters at Hilite Park at a fraction of traditional leasing rates.
+
+### Experience Both Before Deciding
+You don't have to guess. Walk in to **1st Floor, Phase 2, Hilite Business Park** between 9 AM and 7 PM for a personalized tour of both options.`,
   },
 ];

@@ -1,51 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import gridLogo from '../assets/grid-logo.png';
+
+export const GRID_LOGO_URL = 'https://i.postimg.cc/gk75xJ3T/1000074863-removebg-preview.png';
 
 interface BrandLogoProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   darkTheme?: boolean;
+  className?: string;
 }
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md', darkTheme = false }) => {
-  const iconSize = size === 'sm' ? 24 : size === 'lg' ? 38 : 30;
+export const BrandLogo: React.FC<BrandLogoProps> = ({
+  size = 'md',
+  darkTheme = false,
+  className = '',
+}) => {
+  const [imgSrc, setImgSrc] = useState<string>(gridLogo);
+
+  // Height & scale profiles tuned to the 1084x230 natural ratio of THE GRID logo
+  const sizeStyles = {
+    sm: 'h-7 sm:h-8 max-w-[140px] sm:max-w-[160px]',
+    md: 'h-8 sm:h-9 md:h-10 max-w-[180px] sm:max-w-[210px]',
+    lg: 'h-10 sm:h-11 md:h-12 max-w-[220px] sm:max-w-[260px]',
+    xl: 'w-full max-w-[260px] sm:max-w-[340px] md:max-w-[440px] lg:max-w-[520px] max-h-[140px]',
+  }[size];
 
   return (
-    <div className="flex items-center gap-2.5 select-none group cursor-pointer">
-      {/* 4-cell geometric grid icon mark */}
-      <svg
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 40 40"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="shrink-0 transition-transform duration-300 group-hover:scale-105"
-      >
-        <rect x="2" y="2" width="16" height="16" rx="3" fill={darkTheme ? '#71717A' : '#141414'} />
-        <rect x="22" y="2" width="16" height="16" rx="3" fill={darkTheme ? '#A1A1AA' : '#52525B'} />
-        <path
-          d="M2 22C2 22 2 34 2 38H18V22H2Z"
-          fill={darkTheme ? '#52525B' : '#71717A'}
-        />
-        <path
-          d="M22 22H38V35C38 36.6569 36.6569 38 35 38H22V22Z"
-          fill="#F5622E"
-        />
-      </svg>
-      <div className="flex flex-col leading-none">
-        <span
-          className={`font-['Oxygen'] font-bold tracking-tight uppercase ${
-            size === 'sm' ? 'text-base' : size === 'lg' ? 'text-2xl' : 'text-xl'
-          } ${darkTheme ? 'text-white' : 'text-[#141414]'}`}
-        >
-          THE GRID
-        </span>
-        <span
-          className={`font-sans uppercase tracking-[0.24em] text-[8.5px] font-semibold mt-0.5 ${
-            darkTheme ? 'text-zinc-400' : 'text-zinc-600'
-          }`}
-        >
-          POWERED BY CASTILLO
-        </span>
-      </div>
+    <div className={`inline-flex items-center select-none group cursor-pointer ${className}`}>
+      <img
+        src={imgSrc}
+        onError={() => {
+          if (imgSrc !== GRID_LOGO_URL) {
+            setImgSrc(GRID_LOGO_URL);
+          }
+        }}
+        alt="THE GRID - Powered by Castillo"
+        referrerPolicy="no-referrer"
+        className={`w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] ${sizeStyles} ${
+          darkTheme
+            ? 'filter drop-shadow-[0_1px_10px_rgba(255,255,255,0.14)] brightness-105'
+            : 'filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+        }`}
+      />
     </div>
   );
 };
+

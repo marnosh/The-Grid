@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'motion/react';
+import { BrandLogo } from './BrandLogo';
 
 const SESSION_STORAGE_KEY = 'thegrid_split_intro_v3';
 
@@ -165,29 +166,24 @@ export const SplitSquareIntro: React.FC = () => {
       aria-label="THE GRID Intro animation"
       style={{ display: isFinished ? 'none' : 'block' }}
     >
-      {/* 1. Top-Left: "THE GRID" wordmark, white text on charcoal #1a1a1a background */}
+      {/* 1. Top-Left: "THE GRID" official logo on black background */}
       <motion.div
         initial={{ x: 0, y: 0, opacity: 1 }}
         animate={isOpening ? { x: '-102%', y: '-102%', opacity: 0 } : { x: 0, y: 0, opacity: 1 }}
         transition={transitionConfig}
-        className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#1a1a1a] flex flex-col items-center justify-center p-6 border-r border-b border-white/5"
+        className="absolute top-0 left-0 w-1/2 h-1/2 bg-black flex flex-col items-center justify-center p-6 sm:p-10 border-r border-b border-white/10"
       >
-        <div className="flex flex-col items-center justify-center text-center">
-          <h1 className="font-['Oxygen'] font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl uppercase tracking-tight text-white leading-none">
-            THE GRID
-          </h1>
-          <span className="font-sans uppercase tracking-[0.28em] text-[8.5px] sm:text-[10px] md:text-xs text-zinc-400 font-semibold mt-2.5 sm:mt-3">
-            POWERED BY CASTILLO
-          </span>
+        <div className="flex flex-col items-center justify-center text-center max-w-full px-4 sm:px-6">
+          <BrandLogo size="xl" darkTheme={true} />
         </div>
       </motion.div>
 
-      {/* 2. Top-Right: Brand's fine architectural line-grid pattern */}
+      {/* 2. Top-Right: Brand's fine architectural line-grid pattern on black background */}
       <motion.div
         initial={{ x: 0, y: 0, opacity: 1 }}
         animate={isOpening ? { x: '102%', y: '-102%', opacity: 0 } : { x: 0, y: 0, opacity: 1 }}
         transition={transitionConfig}
-        className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#1a1a1a] overflow-hidden border-b border-white/5"
+        className="absolute top-0 right-0 w-1/2 h-1/2 bg-black overflow-hidden border-b border-white/10"
       >
         {/* Crisp architectural grid pattern matching the brand motif */}
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -196,17 +192,17 @@ export const SplitSquareIntro: React.FC = () => {
               <path
                 d="M 36 0 L 0 0 0 36"
                 fill="none"
-                stroke="rgba(255, 255, 255, 0.12)"
+                stroke="rgba(255, 255, 255, 0.15)"
                 strokeWidth="1"
               />
-              <circle cx="0" cy="0" r="1.5" fill="rgba(255, 255, 255, 0.3)" />
+              <circle cx="0" cy="0" r="1.5" fill="rgba(255, 255, 255, 0.35)" />
             </pattern>
             <pattern id="split-major-grid" width="108" height="108" patternUnits="userSpaceOnUse">
               <rect width="108" height="108" fill="url(#split-fine-grid)" />
               <path
                 d="M 108 0 L 0 0 0 108"
                 fill="none"
-                stroke="rgba(255, 255, 255, 0.24)"
+                stroke="rgba(255, 255, 255, 0.28)"
                 strokeWidth="1.5"
               />
             </pattern>
@@ -219,12 +215,12 @@ export const SplitSquareIntro: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* 3. Bottom-Left: Round ash/dot pattern, soft circular grayscale dots of varying size and opacity */}
+      {/* 3. Bottom-Left: Round ash/dot pattern on black background */}
       <motion.div
         initial={{ x: 0, y: 0, opacity: 1 }}
         animate={isOpening ? { x: '-102%', y: '102%', opacity: 0 } : { x: 0, y: 0, opacity: 1 }}
         transition={transitionConfig}
-        className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[#1a1a1a] overflow-hidden border-r border-white/5"
+        className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-black overflow-hidden border-r border-white/10"
       >
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
@@ -269,12 +265,12 @@ export const SplitSquareIntro: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* 4. Bottom-Right: Solid charcoal panel with the tagline in small centered white text */}
+      {/* 4. Bottom-Right: Solid black panel with the tagline in small centered white text */}
       <motion.div
         initial={{ x: 0, y: 0, opacity: 1 }}
         animate={isOpening ? { x: '102%', y: '102%', opacity: 0 } : { x: 0, y: 0, opacity: 1 }}
         transition={transitionConfig}
-        className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#1a1a1a] flex flex-col items-center justify-center p-6 sm:p-10"
+        className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-black flex flex-col items-center justify-center p-6 sm:p-10"
       >
         <p className="font-['Oxygen'] text-xs sm:text-sm md:text-base font-normal tracking-wide text-zinc-200 text-center max-w-xs leading-relaxed">
           A coworking space without the stress or the rent.

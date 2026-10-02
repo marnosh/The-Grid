@@ -56,9 +56,9 @@ export const Header: React.FC<HeaderProps> = () => {
         </div>
       )}
 
-      {/* 4.2 Utility Header in Ghost White #F6F5FA - seamless view without divider */}
-      <div className="bg-[#F6F5FA] py-3.5 border-b border-[#D8DFE9]/50">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 flex items-center justify-between gap-4 w-full">
+      {/* 4.2 Utility Header in Ghost White #F6F5FA - seamless blend with hero */}
+      <div className="bg-[#F6F5FA] py-2">
+        <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           
           {/* Brand Mark */}
           <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -87,6 +87,12 @@ export const Header: React.FC<HeaderProps> = () => {
               className="px-3 py-1.5 rounded-full hover:bg-zinc-200/50 hover:text-[#212121] transition-all cursor-pointer"
             >
               Amenities
+            </button>
+            <button
+              onClick={() => scrollToSection('gallery')}
+              className="px-3 py-1.5 rounded-full hover:bg-zinc-200/50 hover:text-[#212121] transition-all cursor-pointer"
+            >
+              Gallery
             </button>
           </nav>
 
@@ -145,6 +151,12 @@ export const Header: React.FC<HeaderProps> = () => {
             className="block w-full text-left py-1 text-sm font-semibold text-[#212121]"
           >
             Included Amenities
+          </button>
+          <button
+            onClick={() => scrollToSection('gallery')}
+            className="block w-full text-left py-1 text-sm font-semibold text-[#212121]"
+          >
+            Photo Gallery
           </button>
           <button
             onClick={() => scrollToSection('enquiry')}

@@ -245,7 +245,7 @@ export const AdminSpacesTab: React.FC = () => {
             </div>
             <div>
               <label className="block text-[11px] font-bold text-zinc-500 uppercase mb-1">
-                Image Alt Text (SEO & Accessibility)
+                Image Alt Text (Accessibility)
               </label>
               <input
                 type="text"

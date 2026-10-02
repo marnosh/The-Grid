@@ -1,11 +1,17 @@
 import React from 'react';
 import { BrandLogo } from './BrandLogo';
 import { useData } from '../context/DataContext';
-import { Phone, Mail, Instagram, ArrowUpRight } from 'lucide-react';
+import { Phone, Mail, Instagram, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export const Footer: React.FC = () => {
-  const { siteConfig, setIsAdminView } = useData();
+  const {
+    siteConfig,
+    setIsAdminView,
+    setIsBlogViewerOpen,
+    isAdminAuthenticated,
+    setIsAdminLoginModalOpen,
+  } = useData();
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -15,8 +21,8 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#212121] text-[#E5E5EA] pt-16 pb-28 relative z-30">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 w-full">
+    <footer id="footer" className="bg-black text-[#E5E5EA] pt-16 pb-28 relative z-30">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         
         {/* 7.1 Pre-Footer CTA Strip */}
         <div className="rounded-2xl bg-[#181818] border border-zinc-800 p-8 sm:p-10 mb-16 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
@@ -55,10 +61,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* 7.2 Footer Proper: 4 Columns */}
+        {/* 7.2 Footer Proper: 4 Columns (Restored exactly as previous) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 pb-12">
           
-          {/* Col 1: Brand & Bio */}
+          {/* Col 1: Brand & Bio with Blogs link */}
           <div className="lg:col-span-4 space-y-4">
             <BrandLogo size="md" darkTheme={true} />
             <p className="text-xs text-zinc-400 leading-relaxed max-w-sm">
@@ -66,11 +72,31 @@ export const Footer: React.FC = () => {
             </p>
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
-                onClick={() => setIsAdminView(true)}
-                className="text-xs font-semibold text-[#EFF0A3] hover:underline cursor-pointer flex items-center gap-1"
+                id="footer-blogs-link-btn"
+                onClick={() => setIsBlogViewerOpen(true)}
+                className="text-xs font-semibold text-zinc-400 hover:text-white hover:underline cursor-pointer flex items-center gap-1"
               >
-                <span>Access CMS Admin Portal</span>
+                <span>Blogs</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
+              </button>
+              <span className="text-zinc-600">·</span>
+              <button
+                id="footer-admin-link-btn"
+                onClick={() => {
+                  if (isAdminAuthenticated) {
+                    setIsAdminView(true);
+                  } else {
+                    setIsAdminLoginModalOpen(true);
+                  }
+                }}
+                className="text-xs font-semibold text-zinc-400 hover:text-white hover:underline cursor-pointer flex items-center gap-1.5"
+                title={isAdminAuthenticated ? "Access Admin Portal (Session Active)" : "Admin Sign In"}
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Admin</span>
+                {isAdminAuthenticated && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Admin session active" />
+                )}
               </button>
               <span className="text-zinc-600">·</span>
               <button
@@ -98,7 +124,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button onClick={() => scrollTo('spaces')} className="hover:text-white transition-colors cursor-pointer">
-                  Private Cabins (4-12 seaters)
+                  Private Cabins (4-16 seaters)
                 </button>
               </li>
               <li>
@@ -135,7 +161,7 @@ export const Footer: React.FC = () => {
               THE GRID, Hilite Business Park
             </h4>
             <p className="text-zinc-400 leading-relaxed">
-              1st Floor, Phase 2, Hilite Business Park, Calicut, Kerala 673014
+              2121, 1st Floor, Phase 2, Hilite Business Park, Calicut, Kerala 673014
             </p>
             <div className="pt-2 text-zinc-400 space-y-1">
               <p>Mon – Sat: 8:30 AM – 9:00 PM</p>
@@ -154,6 +180,13 @@ export const Footer: React.FC = () => {
             <span>© {new Date().getFullYear()} THE GRID (Castillo). All rights reserved.</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">Hilite Business Park, Calicut</span>
+            <span className="hidden sm:inline">·</span>
+            <button
+              onClick={() => setIsBlogViewerOpen(true)}
+              className="text-zinc-400 hover:text-white hover:underline cursor-pointer"
+            >
+              Blogs
+            </button>
           </div>
 
           <div className="flex items-center gap-4">

@@ -1,17 +1,47 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
 import { Enquiry } from '../../types';
-import { Phone, Trash2, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, Bookmark } from 'lucide-react';
+import { Phone, Trash2, Search, Filter, Calendar, Clock, CheckCircle, AlertCircle, Bookmark, Mail, Send, Loader2 } from 'lucide-react';
 import { WhatsAppIcon } from '../WhatsAppIcon';
 
 export const AdminEnquiriesTab: React.FC = () => {
-  const { enquiries, updateEnquiryStatus, deleteEnquiry } = useData();
+  const { enquiries, updateEnquiryStatus, deleteEnquiry, showToast } = useData();
 
   const [statusFilter, setStatusFilter] = useState<'all' | Enquiry['status']>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState('');
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [isSendingTestEmail, setIsSendingTestEmail] = useState(false);
+
+  const handleSendTestEmail = async () => {
+    setIsSendingTestEmail(true);
+    try {
+      const res = await fetch('/api/enquiry/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Test Lead',
+          phone: '+91 9562868661',
+          email: 'test@thegridcoworking.com',
+          spaceType: 'Hot desk / Dedicated Desk',
+          seatsNeeded: '2 to 4 seats',
+          message: 'This is a test notification verifying automated email alerts to thegridbycastillo@gmail.com',
+          createdAt: new Date().toISOString(),
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Test email alert dispatched to thegridbycastillo@gmail.com!');
+      } else {
+        showToast(data.error || 'Failed to trigger test email.');
+      }
+    } catch {
+      showToast('Network error while dispatching test email.');
+    } finally {
+      setIsSendingTestEmail(false);
+    }
+  };
 
   const filtered = enquiries.filter((enq) => {
     const matchesStatus = statusFilter === 'all' || enq.status === statusFilter;
@@ -92,6 +122,43 @@ export const AdminEnquiriesTab: React.FC = () => {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Direct Customer Email Workflow Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white shadow-xs">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#EFF0A3] flex items-center justify-center shrink-0">
+            <Mail className="w-4 h-4 text-[#212121]" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-white">Direct Customer Email Workflow Active</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
+            <p className="text-[11px] text-zinc-400">
+              When prospects enquire, it opens their email client pre-filled to send directly to{' '}
+              <strong className="text-[#EFF0A3] font-semibold">thegridbycastillo@gmail.com</strong> — letting you reply to them immediately.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={handleSendTestEmail}
+          disabled={isSendingTestEmail}
+          className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 border border-zinc-700 transition-all cursor-pointer whitespace-nowrap disabled:opacity-50"
+        >
+          {isSendingTestEmail ? (
+            <>
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <span>Checking...</span>
+            </>
+          ) : (
+            <>
+              <Send className="w-3.5 h-3.5 text-[#EFF0A3]" />
+              <span>Test API Hook</span>
+            </>
+          )}
+        </button>
       </div>
 
       {/* Search Bar */}
