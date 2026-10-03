@@ -11,7 +11,7 @@ export const LocationSection: React.FC = () => {
   )}`;
 
   return (
-    <section id="location" className="py-20 sm:py-28 lg:py-32 bg-[#F6F5FA] relative">
+    <section id="location" className="pt-10 sm:pt-14 pb-20 sm:pb-28 lg:pb-32 bg-[#F6F5FA] relative">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         
         {/* Section Header */}

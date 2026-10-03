@@ -1,8 +1,95 @@
 import type { Request, Response } from 'express';
-import { getExpectedCredentials, generateAuthToken } from '../_lib/auth';
+import crypto from 'crypto';
+
+interface AdminPayload {
+  email: string;
+  iat: number;
+  exp: number;
+}
+
+const DEFAULT_ADMIN_EMAIL = 'admin@thegrid.com';
+const DEFAULT_ADMIN_PASSWORD = 'grid2025';
+
+function cleanEnv(val?: string): string {
+  if (!val) return '';
+  return val.replace(/^["']|["']$/g, '').trim();
+}
+
+function getExpectedCredentials() {
+  const envEmail = cleanEnv(process.env.ADMIN_EMAIL) || cleanEnv(process.env.VITE_ADMIN_EMAIL);
+  const envPassword = cleanEnv(process.env.ADMIN_PASSWORD) || cleanEnv(process.env.VITE_ADMIN_PASSWORD);
+
+  const email = envEmail || DEFAULT_ADMIN_EMAIL;
+  const password = envPassword || DEFAULT_ADMIN_PASSWORD;
+  const isCustomConfigured = Boolean(envEmail && envPassword);
+  return { email, password, isCustomConfigured };
+}
+
+function getSecretKey(): string {
+  return (
+    process.env.ADMIN_SESSION_SECRET ||
+    process.env.ADMIN_PASSWORD ||
+    'thegrid-secret-auth-salt-c0w0rk1ng-2025'
+  );
+}
+
+function generateAuthToken(email: string): string {
+  const payload: AdminPayload = {
+    email,
+    iat: Date.now(),
+    exp: Date.now() + 7 * 24 * 60 * 60 * 1000,
+  };
+
+  const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', getSecretKey())
+    .update(payloadBase64)
+    .digest('base64url');
+
+  return `${payloadBase64}.${signature}`;
+}
+
+async function parseBody(req: any): Promise<Record<string, any>> {
+  if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
+    return req.body;
+  }
+  if (typeof req.body === 'string') {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
+  }
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      return JSON.parse(req.body.toString('utf8'));
+    } catch {
+      return {};
+    }
+  }
+
+  // Fallback: read body stream if not pre-parsed by middleware
+  return new Promise((resolve) => {
+    let raw = '';
+    req.on('data', (chunk: any) => {
+      raw += chunk;
+    });
+    req.on('end', () => {
+      try {
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch {
+        resolve({});
+      }
+    });
+    req.on('error', () => {
+      resolve({});
+    });
+  });
+}
 
 export default async function handler(req: Request, res: Response) {
-  // CORS & headers
+  // Always guarantee Content-Type: application/json
+  res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -11,30 +98,12 @@ export default async function handler(req: Request, res: Response) {
     return res.status(200).end();
   }
 
-  // Allow only POST
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
   try {
-    // Parse body whether it arrived as object, string, or Buffer (handles both Express & Vercel serverless)
-    let body = req.body;
-    if (typeof body === 'string') {
-      try {
-        body = JSON.parse(body);
-      } catch {
-        body = {};
-      }
-    } else if (Buffer.isBuffer(body)) {
-      try {
-        body = JSON.parse(body.toString('utf8'));
-      } catch {
-        body = {};
-      }
-    } else if (!body) {
-      body = {};
-    }
-
+    const body = await parseBody(req);
     const { email, password } = body;
 
     if (!email || !password) {

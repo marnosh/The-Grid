@@ -108,7 +108,7 @@ export const ImageCarouselSection: React.FC = () => {
   return (
     <section
       id="gallery"
-      className="py-16 sm:py-24 bg-[#F6F5FA] relative overflow-hidden border-t border-[#D8DFE9]/50"
+      className="pt-14 sm:pt-20 pb-4 sm:pb-6 bg-[#F6F5FA] relative overflow-hidden border-t border-[#D8DFE9]/50"
       aria-label="Workspace Portrait Photo Gallery Carousel"
     >
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 mb-8">
@@ -130,17 +130,17 @@ export const ImageCarouselSection: React.FC = () => {
 
       {/* Moving Portrait Carousel Track (Right to Left) */}
       <div
-        className="relative w-full overflow-hidden py-4"
+        className="relative w-full overflow-hidden py-3"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         {/* Soft edge blur masks on sides */}
-        <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-24 bg-gradient-to-r from-[#F6F5FA] via-[#F6F5FA]/80 to-transparent pointer-events-none z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-24 bg-gradient-to-l from-[#F6F5FA] via-[#F6F5FA]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-28 lg:w-36 bg-gradient-to-r from-[#F6F5FA] via-[#F6F5FA]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-28 lg:w-36 bg-gradient-to-l from-[#F6F5FA] via-[#F6F5FA]/80 to-transparent pointer-events-none z-10" />
 
         {/* Marquee Track Moving from Right to Left */}
         <div
-          className={`animate-gallery-marquee flex gap-5 sm:gap-6 ${
+          className={`animate-gallery-marquee flex gap-6 sm:gap-7 lg:gap-8 ${
             isPaused ? 'is-paused' : ''
           }`}
           style={{ willChange: 'transform' }}
@@ -150,9 +150,9 @@ export const ImageCarouselSection: React.FC = () => {
             return (
               <motion.div
                 key={`${img.id}-${index}`}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
                 onClick={() => setSelectedImageIdx(actualIndex)}
-                className="group relative w-[240px] sm:w-[280px] md:w-[300px] shrink-0 rounded-2xl overflow-hidden bg-white border border-[#D8DFE9] hover:border-[#212121] shadow-xs hover:shadow-xl transition-all duration-300 cursor-pointer select-none"
+                className="group relative w-[82vw] sm:w-[46vw] md:w-[40vw] lg:w-[30.5vw] xl:w-[29vw] max-w-[490px] shrink-0 rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-[#D8DFE9] hover:border-[#212121] shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer select-none"
               >
                 {/* 4:5 Portrait Photo Container */}
                 <div className="aspect-[4/5] w-full overflow-hidden bg-zinc-100 relative">

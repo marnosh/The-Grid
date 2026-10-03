@@ -253,7 +253,7 @@
 .animate-gallery-marquee {
   display: flex;
   width: max-content;
-  animation: galleryMarquee 38s linear infinite;
+  animation: galleryMarquee 46s linear infinite;
   will-change: transform;
 }
 
