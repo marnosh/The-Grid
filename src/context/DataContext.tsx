@@ -245,15 +245,20 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
           body: JSON.stringify({ token }),
         });
-        const data = await res.json();
-        if (res.ok && data.valid) {
-          setIsAdminAuthenticated(true);
-          if (data.admin) {
-            setAdminUser(data.admin);
-            localStorage.setItem('thegrid_admin_user', JSON.stringify(data.admin));
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json();
+          if (res.ok && data.valid) {
+            setIsAdminAuthenticated(true);
+            if (data.admin) {
+              setAdminUser(data.admin);
+              localStorage.setItem('thegrid_admin_user', JSON.stringify(data.admin));
+            }
+            return;
           }
-        } else {
-          // Token invalid or expired
+        }
+        // Invalidate session only if server explicitly rejected the token
+        if (res.status === 401) {
           localStorage.removeItem('thegrid_admin_token');
           sessionStorage.removeItem('thegrid_admin_token');
           localStorage.removeItem('thegrid_admin_user');
@@ -263,7 +268,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setIsAdminViewInternal(false);
         }
       } catch (err) {
-        console.warn('Admin token verification skipped (offline/dev fallback)', err);
+        console.warn('Admin token verification skipped (offline fallback)', err);
       }
     };
 
@@ -274,17 +279,29 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     email: string,
     password: string
   ): Promise<{ success: boolean; error?: string }> => {
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: cleanEmail, password: cleanPassword }),
       });
+
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Authentication server returned an unexpected response. Please ensure your Vercel deployment has finished.',
+        };
+      }
+
       const data = await res.json();
       if (!res.ok || !data.success) {
         return {
           success: false,
-          error: data.error || 'Invalid administrator email or password',
+          error: data.error || 'Invalid administrator email or password.',
         };
       }
 
@@ -301,7 +318,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (err) {
       return {
         success: false,
-        error: 'Unable to connect to authentication server. Please verify your connection.',
+        error: 'Unable to connect to authentication server. Please check your connection and retry.',
       };
     }
   };

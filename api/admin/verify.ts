@@ -1,15 +1,33 @@
 import type { Request, Response } from 'express';
-import { verifyAuthToken, getExpectedCredentials } from '../../src/server/auth';
+import { verifyAuthToken, getExpectedCredentials } from '../_lib/auth';
 
 export default async function handler(req: Request, res: Response) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   try {
     const authHeader = req.headers.authorization;
     let token: string | undefined;
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       token = authHeader.substring(7).trim();
-    } else if (req.body && req.body.token) {
-      token = req.body.token;
+    } else {
+      let body = req.body;
+      if (typeof body === 'string') {
+        try {
+          body = JSON.parse(body);
+        } catch {
+          body = {};
+        }
+      }
+      if (body && body.token) {
+        token = body.token;
+      }
     }
 
     if (!token) {
