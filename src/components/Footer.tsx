@@ -197,7 +197,7 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="nofollow sponsored noopener"
               aria-label="Crafted by Marnosh"
-              className="inline-flex items-center justify-center hover:opacity-80 transition-opacity"
+              className="inline-flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 p-1 border border-white/10 transition-colors"
             >
               <img
                 src="/marnosh-footer-logo.png"
@@ -206,7 +206,7 @@ export const Footer: React.FC = () => {
                 height="40"
                 loading="lazy"
                 decoding="async"
-                className="w-10 h-10 object-contain"
+                className="w-10 h-10 rounded-full object-cover"
               />
             </a>
           </div>
