@@ -5,10 +5,20 @@ import { createServer as createViteServer } from 'vite';
 
 dotenv.config();
 
-import adminLoginHandler from './api/admin/login';
-import adminVerifyHandler from './api/admin/verify';
-import adminStatusHandler from './api/admin/status';
-import enquiryNotifyHandler from './api/enquiry/notify';
+import * as adminLoginMod from './api/admin/login';
+import * as adminVerifyMod from './api/admin/verify';
+import * as adminStatusMod from './api/admin/status';
+import * as enquiryNotifyMod from './api/enquiry/notify';
+
+// Resolve handler whether exported as default or named handler
+const adminLoginHandler =
+  (adminLoginMod as any).default || (adminLoginMod as any).handler || (adminLoginMod as any).adminLoginHandler || adminLoginMod;
+const adminVerifyHandler =
+  (adminVerifyMod as any).default || (adminVerifyMod as any).handler || (adminVerifyMod as any).adminVerifyHandler || adminVerifyMod;
+const adminStatusHandler =
+  (adminStatusMod as any).default || (adminStatusMod as any).handler || (adminStatusMod as any).adminStatusHandler || adminStatusMod;
+const enquiryNotifyHandler =
+  (enquiryNotifyMod as any).default || (enquiryNotifyMod as any).handler || (enquiryNotifyMod as any).enquiryNotifyHandler || enquiryNotifyMod;
 
 async function startServer() {
   const app = express();

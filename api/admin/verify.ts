@@ -66,7 +66,7 @@ function verifyAuthToken(token: string): AdminPayload | null {
   }
 }
 
-export default async function handler(req: Request, res: Response) {
+export async function handler(req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -130,3 +130,6 @@ export default async function handler(req: Request, res: Response) {
     });
   }
 }
+
+export { handler as adminVerifyHandler, handler as GET, handler as POST };
+export default handler;

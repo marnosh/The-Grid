@@ -12,7 +12,7 @@ function getExpectedCredentials() {
   return { isCustomConfigured };
 }
 
-export default async function handler(req: Request, res: Response) {
+export async function handler(req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -29,3 +29,6 @@ export default async function handler(req: Request, res: Response) {
     authMode: 'process.env.ADMIN_EMAIL & process.env.ADMIN_PASSWORD',
   });
 }
+
+export { handler as adminStatusHandler, handler as GET };
+export default handler;

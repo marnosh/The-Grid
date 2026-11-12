@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { sendEnquiryEmailAlert, getNotificationEmail } from '../../src/server/emailService';
 
-export default async function handler(req: Request, res: Response) {
+export async function handler(req: Request, res: Response) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
@@ -41,3 +41,6 @@ export default async function handler(req: Request, res: Response) {
     });
   }
 }
+
+export { handler as enquiryNotifyHandler, handler as POST };
+export default handler;
