@@ -175,8 +175,8 @@ export const Footer: React.FC = () => {
         <div className="pt-6" />
 
         {/* 7.3 Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-center md:text-left">
             <span>© {new Date().getFullYear()} THE GRID (Castillo). All rights reserved.</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">Hilite Business Park, Calicut</span>
@@ -189,7 +189,29 @@ export const Footer: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Crafted by Marnosh Credit */}
+          <div className="flex items-center justify-center gap-2.5 order-2 md:order-none">
+            <span className="text-xs text-zinc-400 font-medium">Crafted by</span>
+            <a
+              href="https://www.marnosh.com/?utm_source=thegrid&utm_medium=footer"
+              target="_blank"
+              rel="nofollow sponsored noopener"
+              aria-label="Crafted by Marnosh"
+              className="inline-flex items-center justify-center hover:opacity-80 transition-opacity"
+            >
+              <img
+                src="/marnosh-footer-logo.png"
+                alt="Crafted by Marnosh"
+                width="40"
+                height="40"
+                loading="lazy"
+                decoding="async"
+                className="w-10 h-10 object-contain"
+              />
+            </a>
+          </div>
+
+          <div className="flex items-center gap-4 order-3 md:order-none">
             <span className="text-zinc-400 font-medium">Connect:</span>
             <a
               href={siteConfig.instagramUrl}
